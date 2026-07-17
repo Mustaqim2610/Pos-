@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /**
-     * Menampilkan halaman login.
+     * Tampilkan halaman login.
      */
     public function index()
     {
@@ -26,31 +26,16 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials, $request->filled('remember'))) {
+        if (Auth::attempt($credentials)) {
 
             $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard');
+            return redirect()->route('dashboard')
+                ->with('success', 'Login berhasil!');
         }
 
-        return back()
-            ->withErrors([
-                'email' => 'Email atau password salah.',
-            ])
-            ->onlyInput('email');
-    }
-
-    /**
-     * Logout.
-     */
-    public function logout(Request $request)
-    {
-        Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect()->route('login');
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->onlyInput('email');
     }
 }
