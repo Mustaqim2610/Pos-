@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class LogoutController extends Controller
 {
-    /**
-     * Logout user.
-     */
     public function __invoke(Request $request)
     {
         Auth::logout();
@@ -19,7 +16,6 @@ class LogoutController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')
-            ->with('success', 'Berhasil logout.');
+        return redirect('/login');
     }
 }

@@ -1,46 +1,76 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
+
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReportController;
+
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 
 /*
 |--------------------------------------------------------------------------
-| Login
+| Login & Logout
 |--------------------------------------------------------------------------
 */
 
 Route::middleware('guest')->group(function () {
 
-    // Halaman Login
-    Route::get('/', [LoginController::class, 'index'])
+    Route::get('/login', [LoginController::class, 'index'])
         ->name('login');
 
-    // Proses Login
     Route::post('/login', [LoginController::class, 'authenticate'])
         ->name('login.process');
 
 });
 
-/*
-|--------------------------------------------------------------------------
-| Logout
-|--------------------------------------------------------------------------
-*/
-
-Route::post('/logout', [LoginController::class, 'logout'])
-    ->middleware('auth')
-    ->name('logout');
-
-/*
-|--------------------------------------------------------------------------
-| Dashboard
-|--------------------------------------------------------------------------
-*/
-
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])
+    Route::post('/logout', LogoutController::class)
+        ->name('logout');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/', [DashboardController::class, 'index'])
         ->name('dashboard');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Admin
+    |--------------------------------------------------------------------------
+    */
+
+    Route::middleware('admin')->group(function () {
+
+        Route::resource('users', UserController::class);
+
+        Route::resource('categories', CategoryController::class);
+
+        Route::resource('products', ProductController::class);
+
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cashier
+    |--------------------------------------------------------------------------
+    */
+
+    Route::middleware('cashier')->group(function () {
+
+        Route::resource('sales', SaleController::class);
+
+        Route::get('/reports', [ReportController::class, 'index'])
+            ->name('reports.index');
+
+    });
 
 });

@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Product;
 use App\Models\Category;
+use App\Services\ProductService;
+use App\Http\Requests\ProductRequest;
+use App\Helpers\Upload;
+
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -15,6 +21,16 @@ class ProductController extends Controller
                     ->paginate(10);
 
         return view('products.index', compact('products'));
+    }
+
+    public function index()
+    {
+    $products = $this->productService->getProducts();
+
+    return view(
+        'products.index',
+        compact('products')
+    );
     }
 
     public function create()
@@ -65,5 +81,40 @@ class ProductController extends Controller
 
         return back()
             ->with('success', 'Produk berhasil dihapus');
+    }
+
+    public function store(ProductRequest $request)
+    {
+        Product::create($request->validated());
+
+        return redirect()
+            ->route('products.index')
+            ->with('success', 'Produk berhasil ditambahkan');
+    }
+
+    public function store(CategoryRequest $request)
+    {
+        Category::create($request->validated());
+
+    return redirect()
+            ->route('categories.index')
+            ->with('success', 'Kategori berhasil ditambahkan');
+    }
+
+    public function store(ProductRequest $request,ProductService $service) 
+    {
+        $service->store($request->validated()
+        );
+
+        return redirect()
+            ->route('products.index')
+            ->with(
+                'success',
+                'Produk berhasil ditambahkan'
+            );
+
+        $image = Upload::image(
+    $request->file('gambar')
+        );
     }
 }

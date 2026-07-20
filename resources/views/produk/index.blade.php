@@ -5,99 +5,166 @@
 
 <div class="card card-modern">
 
-<div class="card-header bg-white d-flex justify-content-between">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
 
-<h4>Data Produk</h4>
+        <h4 class="mb-0">Data Produk</h4>
 
-<a href="/produk/create"
-class="btn btn-primary">
+        @can('create', App\Models\Product::class)
+            <a href="{{ route('products.create') }}"
+               class="btn btn-primary">
+                <i class="fas fa-plus"></i>
+                Tambah Produk
+            </a>
+        @endcan
 
-Tambah Produk
+    </div>
 
-</a>
+    <div class="card-body">
 
-</div>
+        <table class="table table-hover table-bordered align-middle">
 
-<div class="card-body">
+            <thead class="table-light">
 
-<table class="table table-hover">
+                <tr>
+                    <th width="50">No</th>
+                    <th width="100">Gambar</th>
+                    <th>Produk</th>
+                    <th width="150">Harga</th>
+                    <th width="120">Stok</th>
+                    <th width="200">Aksi</th>
+                </tr>
 
-<thead>
+            </thead>
 
-<tr>
+            <tbody>
 
-<th>No</th>
-<th>Gambar</th>
-<th>Produk</th>
-<th>Harga</th>
-<th>Stok</th>
-<th>Aksi</th>
+                @forelse($produk as $item)
 
-</tr>
+                    <tr>
 
-</thead>
+                        <td>
+                            {{ $loop->iteration }}
+                        </td>
 
-<tbody>
+                        <td>
 
-@foreach($produk as $item)
+                            @if($item->gambar)
 
-<tr>
+                                <img
+                                    src="{{ asset('storage/' . $item->gambar) }}"
+                                    width="70"
+                                    class="rounded shadow-sm">
 
-<td>{{ $loop->iteration }}</td>
+                            @else
 
-<td>
+                                <img
+                                    src="{{ asset('images/no-image.png') }}"
+                                    width="70"
+                                    class="rounded">
 
-<img
-src="{{ asset('storage/'.$item->gambar) }}"
-width="70"
-class="rounded">
+                            @endif
 
-</td>
+                        </td>
 
-<td>{{ $item->nama_produk }}</td>
+                        <td>
+                            {{ $item->nama_produk }}
+                        </td>
 
-<td>
-Rp {{ number_format($item->harga) }}
-</td>
+                        <td>
+                            Rp {{ number_format($item->harga, 0, ',', '.') }}
+                        </td>
 
-<td>
+                        <td>
 
-<span class="badge bg-success">
+                            @if($item->stok > 10)
 
-{{ $item->stok }}
+                                <span class="badge bg-success">
+                                    {{ $item->stok }}
+                                </span>
 
-</span>
+                            @elseif($item->stok > 0)
 
-</td>
+                                <span class="badge bg-warning">
+                                    {{ $item->stok }}
+                                </span>
 
-<td>
+                            @else
 
-<a href=""
-class="btn btn-warning btn-sm">
+                                <span class="badge bg-danger">
+                                    Habis
+                                </span>
 
-Edit
+                            @endif
 
-</a>
+                        </td>
 
-<a href=""
-class="btn btn-danger btn-sm">
+                        <td>
 
-Hapus
+                            @can('update', $item)
 
-</a>
+                                <a href="{{ route('products.edit', $item->id) }}"
+                                   class="btn btn-warning btn-sm">
 
-</td>
+                                    Edit
 
-</tr>
+                                </a>
 
-@endforeach
+                            @endcan
 
-</tbody>
+                            @can('delete', $item)
 
-</table>
+                                <form
+                                    action="{{ route('products.destroy', $item->id) }}"
+                                    method="POST"
+                                    class="d-inline">
 
-</div>
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Yakin ingin menghapus produk ini?')">
+
+                                        Hapus
+
+                                    </button>
+
+                                </form>
+
+                            @endcan
+
+                        </td
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td colspan="6" class="text-center">
+
+                            Data produk belum tersedia
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
+
+            </tbody>
+
+        </table>
+
+        <div class="mt-3">
+
+            {{ $produk->links() }}
+
+        </div>
+
+    </div>
 
 </div>
 
 @endsection
+
