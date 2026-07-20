@@ -23,9 +23,9 @@ class TransactionService
 
             $sale = Sale::create([
                 'invoice' => 'INV-' . now()->format('YmdHis'),
-                'total' => $grandTotal,
-                'payment' => $payment,
-                'change' => $payment - $grandTotal,
+                'total'   => $grandTotal,
+                'paid'    => $payment,
+                'change'  => $payment - $grandTotal,
             ]);
 
             foreach ($cart as $item) {

@@ -12,23 +12,23 @@ return new class extends Migration
 
             $table->id();
 
-            $table->string('kode_invoice')
+            $table->string('invoice')
                   ->unique();
 
             $table->foreignId('user_id')
                   ->constrained()
                   ->cascadeOnDelete();
 
-            $table->bigInteger('total_harga');
+            $table->bigInteger('total');
 
-            $table->bigInteger('bayar');
+            $table->bigInteger('paid');
 
-            $table->bigInteger('kembalian');
+            $table->bigInteger('change');
 
             $table->enum(
                 'status',
-                ['Lunas','Pending']
-            )->default('Lunas');
+                ['paid', 'pending', 'cancelled', 'refunded']
+            )->default('paid');
 
             $table->timestamps();
         });

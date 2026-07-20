@@ -10,19 +10,9 @@ class ProductService
         protected ProductRepository $productRepository
     ) {}
 
-    public function __construct(
-    protected ProductRepository $repository
-    ) {}
-
     public function getProducts()
     {
-        return $this->repository->getAll();
-    }
-
-    public function getProducts()
-    {
-        return $this->productRepository
-            ->paginate();
+        return $this->productRepository->getAll();
     }
 
     public function createProduct(

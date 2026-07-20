@@ -20,11 +20,9 @@ class CashierMiddleware
             return redirect('/login');
         }
 
-        if (
-            auth()->user()->role !== 'cashier'
-            &&
-            auth()->user()->role !== 'admin'
-        ) {
+        $role = auth()->user()->role->value;
+
+        if ($role !== 'kasir' && $role !== 'admin') {
 
             abort(
                 403,

@@ -8,69 +8,63 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
-
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 
 /*
 |--------------------------------------------------------------------------
-| Login & Logout
+| Guest Routes
 |--------------------------------------------------------------------------
 */
-
 Route::middleware('guest')->group(function () {
-
-    Route::get('/login', [LoginController::class, 'index'])
-        ->name('login');
-
-    Route::post('/login', [LoginController::class, 'authenticate'])
-        ->name('login.process');
-
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::post('/login', [LoginController::class, 'authenticate'])->name('login.process');
 });
 
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware('auth')->group(function () {
 
-    Route::post('/logout', LogoutController::class)
-        ->name('logout');
+    Route::post('/logout', LogoutController::class)->name('logout');
+
+    // Dashboard (semua role bisa akses)
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     /*
-    |--------------------------------------------------------------------------
-    | Dashboard
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
+    | Admin only
+    |----------------------------------------------------------------------
     */
-
-    Route::get('/', [DashboardController::class, 'index'])
-        ->name('dashboard');
-
-    /*
-    |--------------------------------------------------------------------------
-    | Admin
-    |--------------------------------------------------------------------------
-    */
-
     Route::middleware('admin')->group(function () {
+        Route::resource('categories', CategoryController::class)
+            ->except(['show', 'create', 'edit']);
 
-        Route::resource('users', UserController::class);
+        Route::resource('products', ProductController::class)
+            ->except(['show']);
 
-        Route::resource('categories', CategoryController::class);
-
-        Route::resource('products', ProductController::class);
-
+        Route::resource('users', UserController::class)
+            ->except(['show']);
     });
 
     /*
-    |--------------------------------------------------------------------------
-    | Cashier
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
+    | Kasir + Admin
+    |----------------------------------------------------------------------
     */
-
     Route::middleware('cashier')->group(function () {
+        // Kasir page
+        Route::get('/sales/create', [SaleController::class, 'create'])->name('sales.create');
+        Route::post('/sales',       [SaleController::class, 'store'])->name('sales.store');
 
-        Route::resource('sales', SaleController::class);
+        // Riwayat transaksi
+        Route::get('/sales',             [SaleController::class, 'index'])->name('sales.index');
+        Route::get('/sales/{sale}/detail', [SaleController::class, 'detail'])->name('sales.detail');
 
-        Route::get('/reports', [ReportController::class, 'index'])
-            ->name('reports.index');
-
+        // Laporan
+        Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     });
 
 });

@@ -13,17 +13,17 @@ return new class extends Migration
 
             $table->id();
 
-            $table->foreignId('transaksi_id')
+            $table->foreignId('transaction_id')
                   ->constrained('transaksis')
                   ->cascadeOnDelete();
 
-            $table->foreignId('produk_id')
-                  ->constrained('produks')
-                  ->cascadeOnDelete();
+           $table->foreignId('product_id')
+                ->constrained('products')
+                ->cascadeOnDelete();
 
             $table->integer('qty');
 
-            $table->bigInteger('harga');
+            $table->bigInteger('price');
 
             $table->bigInteger('subtotal');
 

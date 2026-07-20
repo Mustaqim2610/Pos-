@@ -20,7 +20,7 @@ class AdminMiddleware
             return redirect('/login');
         }
 
-        if (auth()->user()->role !== 'admin') {
+        if (auth()->user()->role->value !== 'admin') {
 
             abort(
                 403,

@@ -38,7 +38,6 @@ class ProductRepository
     {
         return Product::with('category')
             ->where('name', 'like', "%{$keyword}%")
-            ->orWhere('barcode', 'like', "%{$keyword}%")
             ->get();
     }
 

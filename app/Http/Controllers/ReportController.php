@@ -9,22 +9,28 @@ class ReportController extends Controller
 {
     public function index(Request $request)
     {
-        $from = $request->from;
-        $to = $request->to;
+        $query = Sale::with('user')
+            ->when($request->from, fn ($q, $v) => $q->whereDate('created_at', '>=', $v))
+            ->when($request->to,   fn ($q, $v) => $q->whereDate('created_at', '<=', $v));
 
-        $sales = Sale::when($from, function ($query) use ($from) {
-                    $query->whereDate('created_at', '>=', $from);
-                })
-                ->when($to, function ($query) use ($to) {
-                    $query->whereDate('created_at', '<=', $to);
-                })
-                ->get();
+        $totalRevenue      = (clone $query)->sum('total');
+        $totalTransactions = (clone $query)->count();
 
-        $grandTotal = $sales->sum('total');
+        $sales = $query->latest()->paginate(15)->withQueryString();
 
-        return view('reports.index', compact(
+        // Daily chart — last 16 days
+        $days = collect(range(15, 0))->map(fn ($i) => now()->subDays($i));
+
+        $dailyLabels = $days->map(fn ($d) => $d->format('d'))->values();
+
+        $dailyData = $days->map(fn ($d) => Sale::whereDate('created_at', $d)->sum('total'))->values();
+
+        return view('laporan.index', compact(
             'sales',
-            'grandTotal'
+            'totalRevenue',
+            'totalTransactions',
+            'dailyLabels',
+            'dailyData'
         ));
     }
 }
