@@ -142,7 +142,10 @@
 
 <!-- Left decorative panel -->
 <div class="left-panel">
-    <div class="brand-icon"><i class="fas fa-cart-shopping"></i></div>
+    <div class="brand-icon" style="background:transparent; padding:0; overflow:hidden; border-radius:20px;">
+        <img src="{{ asset('Kopi setara.png') }}" alt="Logo"
+             style="width:110px; height:110px; object-fit:contain; border-radius:20px;">
+    </div>
     <h1>POS SYSTEM</h1>
     <p class="tagline">Point Of Sale Application</p>
     <p>Sistem penjualan yang<br>memudahkan transaksi,<br>manajemen produk, dan<br>laporan penjualan.</p>

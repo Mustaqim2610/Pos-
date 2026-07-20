@@ -217,7 +217,10 @@
 <!-- ═══ SIDEBAR ═══ -->
 <div class="sidebar">
     <div class="sidebar-logo">
-        <div class="logo-icon"><i class="fas fa-cart-shopping"></i></div>
+        <div style="width:150px; height:150px; margin:0 auto 10px; border-radius:16px; overflow:hidden;">
+            <img src="{{ asset('Kopi setara.png') }}" alt="Logo"
+                 style="width:100%; height:100%; object-fit:contain; filter: brightness(0) invert(1);">
+        </div>
         <h6>POS SYSTEM</h6>
         <small>Point Of Sale Application</small>
     </div>
