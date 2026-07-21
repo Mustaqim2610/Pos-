@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>POS System – Register</title>
+    <title>Kopi Setara – Register</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -165,8 +165,8 @@
         <img src="{{ asset('Kopi setara.png') }}" alt="Logo"
              style="width:100%; height:100%; object-fit:contain; filter:brightness(0) invert(1);">
     </div>
-    <h1>POS SYSTEM</h1>
-    <p class="tagline">Point Of Sale Application</p>
+    <h1>KOPI SETARA</h1>
+    <p class="tagline">Sistem Informasi Kasir (Point of Sale)</p>
 
     <div style="width:100%; margin-bottom: 8px;">
         <div class="feature-item">
@@ -183,7 +183,7 @@
         </div>
     </div>
 
-    <p class="copyright">© {{ date('Y') }} POS System. All rights reserved.</p>
+    <p class="copyright">© {{ date('Y') }} Kopi Setara. All rights reserved.</p>
 </div>
 
 <!-- ── Right Panel ── -->

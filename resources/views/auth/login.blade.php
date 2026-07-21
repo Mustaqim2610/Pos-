@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>POS System – Login</title>
+    <title>Kopi Setara – Login</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -40,9 +40,16 @@
             margin-bottom: 20px;
         }
         .left-panel h1 { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
-        .left-panel .tagline { font-size: 12px; opacity: .7; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 36px; }
+        .left-panel .tagline { font-size: 12px; opacity: .7; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
         .left-panel p { font-size: 14px; line-height: 1.8; opacity: .75; text-align: center; }
         .left-panel .copyright { margin-top: auto; font-size: 12px; opacity: .45; }
+
+        /* float animation */
+        @keyframes floatAnim {
+            0%   { transform: translateY(0px); }
+            50%  { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
 
         /* ── Right Panel ── */
         .right-panel {
@@ -144,12 +151,23 @@
 <div class="left-panel">
     <div class="brand-icon" style="background:transparent; padding:0; overflow:hidden; border-radius:20px;">
         <img src="{{ asset('Kopi setara.png') }}" alt="Logo"
-             style="width:110px; height:110px; object-fit:contain; border-radius:20px;">
+             style="width:180px; height:180px; object-fit:contain; border-radius:20px; filter: brightness(0) invert(1);">
     </div>
-    <h1>POS SYSTEM</h1>
-    <p class="tagline">Point Of Sale Application</p>
-    <p>Sistem penjualan yang<br>memudahkan transaksi,<br>manajemen produk, dan<br>laporan penjualan.</p>
-    <p class="copyright">© {{ date('Y') }} POS System. All rights reserved.</p>
+    <h1>KOPI SETARA</h1>
+    <p class="tagline">Sistem Informasi Kasir<br>(Point of Sale)</p>
+    <p>Selamat datang di Sistem Informasi Kasir KOPI<br>SETARA. Sistem ini dirancang untuk membantu<br>proses transaksi penjualan, pengelolaan data produk, serta penyusunan laporan penjualan<br>secara cepat, akurat, dan efisien. Kami berkomitmen untuk mendukung perasional<br>usaha agar lebih mudah, tertata, dan optimal.</p>
+    
+    {{-- Cashier Illustration --}}
+    <div style="margin: 28px 0 20px;">
+        <img src="{{ asset('img/pngwing.com.png') }}"
+             alt="Kasir Illustration"
+             style="width: 260px; height: 260px; object-fit: contain;
+                    filter: drop-shadow(0 8px 32px rgba(0,0,0,0.35));
+                    animation: floatAnim 3s ease-in-out infinite;"
+             onerror="this.style.display='none'">
+    </div>
+    
+    <p class="copyright">© {{ date('Y') }} Kopi Setara | Mustaqim.</p>
 </div>
 
 <!-- Right login panel -->
