@@ -274,7 +274,8 @@
         <i class="fas fa-users-gear"></i>
         <span>User</span>
     </a>
-    <a href="#" class="sidebar-link">
+    <a href="{{ route('profile.index') }}"
+       class="sidebar-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
         <i class="fas fa-circle-user"></i>
         <span>Profil</span>
     </a>
@@ -310,7 +311,7 @@
                 <i class="fas fa-chevron-down" style="font-size:10px; color:#94a3b8;"></i>
             </div>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profil</a></li>
+                <li><a class="dropdown-item" href="{{ route('profile.index') }}"><i class="fas fa-user me-2"></i>Profil</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
                     <form method="POST" action="{{ route('logout') }}">

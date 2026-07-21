@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -36,6 +37,12 @@ Route::middleware('auth')->group(function () {
 
     // Dashboard (semua role bisa akses)
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Profil (semua role)
+    Route::get('/profile',              [ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile',              [ProfileController::class, 'updateInfo'])->name('profile.update');
+    Route::put('/profile/password',     [ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::post('/profile/avatar',      [ProfileController::class, 'updateAvatar'])->name('profile.avatar');
 
     /*
     |----------------------------------------------------------------------
