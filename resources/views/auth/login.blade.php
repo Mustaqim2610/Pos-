@@ -204,7 +204,7 @@
 
             <div class="divider mt-4"><span>atau</span></div>
 
-            <p class="register-link">Belum punya akun? <a href="#">Register</a></p>
+            <p class="register-link">Belum punya akun? <a href="{{ route('register') }}">Register</a></p>
         </form>
     </div>
 </div>
